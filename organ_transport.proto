@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package organ_transport;
+
+service OrganTransportService {
+  rpc ReserveOrgan (OrganRequest) returns (OrganResponse);
+}
+
+message OrganRequest {
+  string donor_id = 1;
+  string organ_type = 2;
+  int32 hospital_id = 3;
+}
+
+message OrganResponse {
+  string reservation_id = 1;
+  string status = 2;
+  int32 viability_minutes = 3;
+}

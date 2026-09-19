@@ -1,0 +1,16 @@
+{
+  "name": "legacy-organ-transport-gateway",
+  "version": "1.0.0",
+  "description": "SOAP to gRPC Translating Gateway for Legacy Organ Transport",
+  "main": "gateway.js",
+  "scripts": {
+    "start:server": "node server.js",
+    "start:gateway": "node gateway.js"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.9.0",
+    "@grpc/proto-loader": "^0.7.8",
+    "express": "^4.18.2",
+    "soap": "^1.0.0"
+  }
+}
