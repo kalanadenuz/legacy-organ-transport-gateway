@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  grpc-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.grpc
+    ports:
+      - "50051:50051"
+
+  soap-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile.gateway
+    environment:
+      - GRPC_HOST=grpc-backend:50051
+    ports:
+      - "8000:8000"
+    depends_on:
+      - grpc-backend
