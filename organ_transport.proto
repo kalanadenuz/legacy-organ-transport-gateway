@@ -4,6 +4,8 @@ package organ_transport;
 
 service OrganTransportService {
   rpc ReserveOrgan (OrganRequest) returns (OrganResponse);
+  rpc GetTransportStatus (StatusRequest) returns (StatusResponse);
+  rpc CancelReservation (CancelRequest) returns (CancelResponse);
 }
 
 message OrganRequest {
@@ -16,4 +18,24 @@ message OrganResponse {
   string reservation_id = 1;
   string status = 2;
   int32 viability_minutes = 3;
+}
+
+message StatusRequest {
+  string reservation_id = 1;
+}
+
+message StatusResponse {
+  string reservation_id = 1;
+  string current_location = 2;
+  int32 eta_minutes = 3;
+}
+
+message CancelRequest {
+  string reservation_id = 1;
+  string reason = 2;
+}
+
+message CancelResponse {
+  bool success = 1;
+  string message = 2;
 }

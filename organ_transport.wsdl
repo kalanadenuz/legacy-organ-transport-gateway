@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="OrganTransportService"
+  targetNamespace="http://healthcare.org/transport"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:tns="http://healthcare.org/transport"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://healthcare.org/transport" elementFormDefault="qualified">
+      <!-- 1. ReserveOrgan -->
+      <xsd:element name="ReserveOrganRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="donorId" type="xsd:string"/>
+            <xsd:element name="organType" type="xsd:string"/>
+            <xsd:element name="hospitalId" type="xsd:int"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ReserveOrganResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="reservationId" type="xsd:string"/>
+            <xsd:element name="status" type="xsd:string"/>
+            <xsd:element name="viabilityMinutes" type="xsd:int"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <!-- 2. GetTransportStatus -->
+      <xsd:element name="GetTransportStatusRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="reservationId" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="GetTransportStatusResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="reservationId" type="xsd:string"/>
+            <xsd:element name="currentLocation" type="xsd:string"/>
+            <xsd:element name="etaMinutes" type="xsd:int"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <!-- 3. CancelReservation -->
+      <xsd:element name="CancelReservationRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="reservationId" type="xsd:string"/>
+            <xsd:element name="reason" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="CancelReservationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="success" type="xsd:boolean"/>
+            <xsd:element name="message" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+
+  <!-- Messages -->
+  <wsdl:message name="ReserveOrganInput"><wsdl:part name="parameters" element="tns:ReserveOrganRequest"/></wsdl:message>
+  <wsdl:message name="ReserveOrganOutput"><wsdl:part name="parameters" element="tns:ReserveOrganResponse"/></wsdl:message>
+  <wsdl:message name="GetTransportStatusInput"><wsdl:part name="parameters" element="tns:GetTransportStatusRequest"/></wsdl:message>
+  <wsdl:message name="GetTransportStatusOutput"><wsdl:part name="parameters" element="tns:GetTransportStatusResponse"/></wsdl:message>
+  <wsdl:message name="CancelReservationInput"><wsdl:part name="parameters" element="tns:CancelReservationRequest"/></wsdl:message>
+  <wsdl:message name="CancelReservationOutput"><wsdl:part name="parameters" element="tns:CancelReservationResponse"/></wsdl:message>
+
+  <!-- Port Type -->
+  <wsdl:portType name="OrganTransportPortType">
+    <wsdl:operation name="ReserveOrgan">
+      <wsdl:input message="tns:ReserveOrganInput"/>
+      <wsdl:output message="tns:ReserveOrganOutput"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetTransportStatus">
+      <wsdl:input message="tns:GetTransportStatusInput"/>
+      <wsdl:output message="tns:GetTransportStatusOutput"/>
+    </wsdl:operation>
+    <wsdl:operation name="CancelReservation">
+      <wsdl:input message="tns:CancelReservationInput"/>
+      <wsdl:output message="tns:CancelReservationOutput"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <!-- Binding -->
+  <wsdl:binding name="OrganTransportBinding" type="tns:OrganTransportPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="ReserveOrgan">
+      <soap:operation soapAction="ReserveOrgan"/>
+      <wsdl:input><soap:body use="literal"/></wsdl:input>
+      <wsdl:output><soap:body use="literal"/></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTransportStatus">
+      <soap:operation soapAction="GetTransportStatus"/>
+      <wsdl:input><soap:body use="literal"/></wsdl:input>
+      <wsdl:output><soap:body use="literal"/></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelReservation">
+      <soap:operation soapAction="CancelReservation"/>
+      <wsdl:input><soap:body use="literal"/></wsdl:input>
+      <wsdl:output><soap:body use="literal"/></wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <!-- Service -->
+  <wsdl:service name="OrganTransportSOAPService">
+    <wsdl:port name="OrganTransportPort" binding="tns:OrganTransportBinding">
+      <soap:address location="http://localhost:8000/soap"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

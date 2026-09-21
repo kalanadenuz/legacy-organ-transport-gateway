@@ -3,16 +3,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.grpc
-    ports:
-      - "50051:50051"
+    network_mode: "host"
 
   soap-gateway:
     build:
       context: .
       dockerfile: Dockerfile.gateway
     environment:
-      - GRPC_HOST=grpc-backend:50051
-    ports:
-      - "8000:8000"
+      - GRPC_HOST=127.0.0.1:50051
+    network_mode: "host"
     depends_on:
       - grpc-backend
